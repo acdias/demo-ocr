@@ -1,0 +1,12 @@
+amazon-textract-caller==0.2.4
+amazon-textract-prettyprinter==0.1.10
+amazon-textract-response-parser==0.1.48
+boto3==1.35.78
+easyocr==1.7.2
+Flask==3.1.0
+Flask-Cors==5.0.0
+gunicorn==23.0.0
+pandas==2.2.3
+pdf2image==1.17.0
+Werkzeug==3.1.3
+

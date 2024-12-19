@@ -1,0 +1,14 @@
+// app global css in SCSS form
+@font-face {
+  font-family: PingL-Regular;
+  src: url(./fonts/PingL-Regular.otf) format('opentype');
+}
+
+body {
+  font-family: 'PingL-Regular';
+}
+
+// declare a class which applies it
+.g-power-font {
+  font-family: 'PingL-Regular';
+}

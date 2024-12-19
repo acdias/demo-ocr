@@ -1,0 +1,38 @@
+apiVersion: garden.io/v1
+kind: Project
+name: demo-ocr
+
+defaultEnvironment: remote
+dotIgnoreFile: .gitignore
+proxy:
+  hostname: 0.0.0.0
+
+environments:
+  #- name: ephemeral
+  #  defaultNamespace: ${var.userNamespace}
+  #  variables:
+  #    k8sProvider: ephemeral-kubernetes
+
+  - name: remote
+    defaultNamespace: ${var.userNamespace}
+    variables:
+      k8sProvider: kubernetes
+
+providers:
+  #- name: ephemeral-kubernetes
+  #  environments: [ephemeral]
+  #  namespace: ${environment.namespace}
+
+  - name: kubernetes
+    environments: [remote]
+    context: garden-gke
+    buildMode: cluster-buildkit
+    imagePullSecrets:
+      - name: gar-config
+        namespace: garden
+    deploymentRegistry:
+      hostname: us-central1-docker.pkg.dev
+      namespace: microservices-436217/galp
+
+variables:
+  userNamespace: demo-ocr-${kebabCase(local.username)}

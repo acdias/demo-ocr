@@ -1,0 +1,37 @@
+kind: Build
+description: Image for api
+type: container # This makes Garden aware that there's a Dockerfile here that needs to be built.
+name: api
+
+---
+kind: Deploy
+description: The api
+name: api
+type: container
+dependencies:
+  - build.api
+spec:
+  args: [python, src/service.py]
+  image: ${actions.build.api.outputs.deploymentImageId}
+  sync:
+    paths:
+      - target: /app/src
+        source: src
+        mode: two-way
+  ports:
+    - name: http
+      containerPort: 5000
+      servicePort: 80
+  limits:
+    memory: "7000" # Increase the memory limit to 7GB because the easyocr (pytorch) service requires a lot of memory
+  env:
+    AWS_DEFAULT_REGION: eu-west-1
+    AWS_ACCESS_KEY_ID:
+      secretRef:
+        name: aws-access
+        key: aws-access-key-id
+    AWS_SECRET_ACCESS_KEY:
+      secretRef:
+        name: aws-secret
+        key: aws-secret-access-key
+  

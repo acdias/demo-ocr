@@ -1,0 +1,27 @@
+kind: Build
+description: Image for the client UI
+type: container # This makes Garden aware that there's a Dockerfile here that needs to be built.
+name: client
+
+---
+kind: Deploy
+description: The client UI
+name: client
+type: container
+dependencies:
+  - build.client
+  - deploy.api
+spec:
+  args: [npx, quasar, dev]
+  image: ${actions.build.client.outputs.deploymentImageId}
+  sync:
+    paths:
+      - target: /app/src
+        source: src
+        mode: two-way
+  ports:
+    - name: http
+      containerPort: 9000
+  env:
+    API_URL: http://127.0.0.1
+  

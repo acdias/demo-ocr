@@ -16,11 +16,11 @@ RUN npm install -g @quasar/cli
 # Install app dependencies (assuming you have a package.json)
 RUN npm install
 
-# Build the Quasar app (for PWA)
-RUN quasar build -m pwa
+# Build the Quasar app (for SPA)
+RUN quasar build -m spa
 
 # Expose port 80 for the web server
 EXPOSE 9000
 
 # Serve the app with Nginx
-CMD ["quasar", "serve", "dist/pwa", "-p", "9000"]
+CMD ["quasar", "serve", "dist/spa", "-p", "9000"]
